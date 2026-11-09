@@ -74,4 +74,11 @@ public class HoldRepository
             hashtextextended({studentId}, 0)
         )");
     }
+    public async Task<List<Hold>> GetByStudentIdAsync(string studentId)
+    {
+        return await _context.Set<Hold>()
+            .Where(x => x.StudentId == studentId)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync();
+    }
 }

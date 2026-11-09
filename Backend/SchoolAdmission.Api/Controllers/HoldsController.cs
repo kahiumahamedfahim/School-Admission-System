@@ -247,4 +247,36 @@ public class HoldsController : ControllerBase
                 });
         }
     }
+
+    [HttpGet("me/holds")]
+    public async Task<IActionResult> GetMyHolds()
+    {
+        try
+        {
+            if (!Request.Headers.TryGetValue(
+                    "X-Student-Id",
+                    out var studentId))
+            {
+                return BadRequest(new
+                {
+                    message = "X-Student-Id header is required."
+                });
+            }
+
+            var holds =
+                await _holdService.GetMyHoldsAsync(
+                    studentId.ToString());
+
+            return Ok(holds);
+        }
+        catch (Exception)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new
+                {
+                    message = "An unexpected error occurred."
+                });
+        }
+    }
 }

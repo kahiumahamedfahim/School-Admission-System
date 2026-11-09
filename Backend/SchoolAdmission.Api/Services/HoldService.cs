@@ -401,4 +401,28 @@ public class HoldService : IHoldService
             throw;
         }
     }
+
+
+    public async Task<List<HoldListResponseDto>> GetMyHoldsAsync(
+    string studentId)
+    {
+        try
+        {
+            var holds =
+                await _holdRepository.GetByStudentIdAsync(studentId);
+
+            return holds.Select(x => new HoldListResponseDto
+            {
+                HoldId = x.Id,
+                ClassId = x.ClassId,
+                StudentId = x.StudentId,
+                Status = x.Status,
+                ExpiresAt = x.ExpiresAt
+            }).ToList();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 }

@@ -17,4 +17,5 @@ public interface IHoldRepository : IRepository<Hold>
     Guid holdId);
     Task AcquireStudentHoldLockAsync(
     string studentId);
+    Task<List<Hold>> GetByStudentIdAsync(string studentId);
 }

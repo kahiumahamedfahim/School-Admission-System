@@ -19,5 +19,7 @@ namespace SchoolAdmission.Api.Services.Interfaces
         Task CancelHoldAsync(
     Guid holdId,
     string studentId);
+
+        Task<List<HoldListResponseDto>> GetMyHoldsAsync(string studentId);
     }
 }

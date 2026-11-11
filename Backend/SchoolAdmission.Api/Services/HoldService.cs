@@ -54,8 +54,8 @@ public class HoldService : IHoldService
     }
 
     public async Task<HoldResponseDto> CreateHoldAsync(
-        Guid classId,
-        string studentId)
+     Guid classId,
+     string studentId)
     {
         try
         {
@@ -76,7 +76,8 @@ public class HoldService : IHoldService
             try
             {
                 await _holdRepository.AcquireStudentHoldLockAsync(
-                  studentId);
+                    studentId);
+
                 var schoolClass =
                     await _schoolClassRepository
                         .GetByIdForUpdateAsync(classId);
@@ -92,13 +93,23 @@ public class HoldService : IHoldService
                 var hasActiveHold =
                     await _holdRepository
                         .HasActiveHoldForStudentAsync(
-
                             studentId);
 
                 if (hasActiveHold)
                 {
                     throw new InvalidOperationException(
-                        "Student already has an active hold for this class.");
+                        "Student already has an active hold.");
+                }
+
+                var hasConfirmedAdmission =
+                    await _holdRepository
+                        .HasConfirmedAdmissionForStudentAsync(
+                            studentId);
+
+                if (hasConfirmedAdmission)
+                {
+                    throw new InvalidOperationException(
+                        "Student already has a confirmed admission.");
                 }
 
                 var heldSeats =

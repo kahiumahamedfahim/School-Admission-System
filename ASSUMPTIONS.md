@@ -30,7 +30,15 @@ A student can have only one active `HELD` hold at a time across the system.
 
 This prevents the same student from holding multiple seats simultaneously.
 
-## 6. Seat Availability
+## 6. One Confirmed Admission Per Student
+
+A student can be admitted to only one class.
+
+Once a student's hold is confirmed, the student cannot create another hold for any class.
+
+Therefore, a student can have at most one confirmed admission across the system.
+
+## 7. Seat Availability
 
 A seat is considered occupied when it is either:
 
@@ -43,7 +51,7 @@ Therefore:
 
 must always remain true.
 
-## 7. Concurrency
+## 8. Concurrency
 
 Seat allocation is protected using PostgreSQL transaction and row-level locking.
 
@@ -51,25 +59,25 @@ The class row is locked before checking the current number of held and confirmed
 
 This ensures that simultaneous hold requests cannot allocate more seats than the class capacity.
 
-## 8. Payment
+## 9. Payment
 
 No real payment gateway is integrated.
 
 Confirming a hold simulates successful payment and changes the hold status from `HELD` to `CONFIRMED`.
 
-## 9. Data Persistence
+## 10. Data Persistence
 
 PostgreSQL is used as the persistent database.
 
 Class and hold data remain available after application restart.
 
-## 10. Time Handling
+## 11. Time Handling
 
 The backend stores and compares timestamps using UTC (`DateTime.UtcNow`).
 
 The hold expiration time is calculated from the backend's current UTC time.
 
-## 11. API Error Handling
+## 12. API Error Handling
 
 The API returns appropriate HTTP status codes for common situations.
 
@@ -81,7 +89,7 @@ For example:
 - `409 Conflict` when a seat is unavailable or a business rule prevents the operation
 - `500 Internal Server Error` for unexpected server errors
 
-## 12. Frontend Scope
+## 13. Frontend Scope
 
 The frontend focuses on functionality rather than visual polish.
 

@@ -18,4 +18,6 @@ public interface IHoldRepository : IRepository<Hold>
     Task AcquireStudentHoldLockAsync(
     string studentId);
     Task<List<Hold>> GetByStudentIdAsync(string studentId);
+    Task<bool> HasConfirmedAdmissionForStudentAsync(
+    string studentId);
 }

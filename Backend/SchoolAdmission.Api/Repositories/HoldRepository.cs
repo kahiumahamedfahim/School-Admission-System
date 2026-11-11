@@ -81,4 +81,12 @@ public class HoldRepository
             .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();
     }
+    public async Task<bool> HasConfirmedAdmissionForStudentAsync(
+    string studentId)
+    {
+        return await _context.Set<Hold>()
+            .AnyAsync(x =>
+                x.StudentId == studentId &&
+                x.Status == HoldStatus.CONFIRMED);
+    }
 }
